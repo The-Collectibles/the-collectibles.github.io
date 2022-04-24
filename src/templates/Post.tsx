@@ -107,13 +107,14 @@ const IndexRoute = (data: PageProps<Result, Result>) => {
         <div className="row">
           <div className="col">
             <img src={data.pageContext.productImage} />
-            <a className="btn btn-primary" href={data.pageContext.linkToProduct} target="_blank">
-              Buy Product
-            </a>
+
           </div>
           <div className="col">
             <h1>{data.pageContext.name}</h1>
-            {data.pageContext.description}
+            <p dangerouslySetInnerHTML={{__html:data.pageContext.description}} />
+            <a className="btn btn-primary" href={data.pageContext.linkToProduct} target="_blank">
+              Buy Product
+            </a>
           </div>
         </div>
       </div>

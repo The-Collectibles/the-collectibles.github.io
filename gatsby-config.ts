@@ -38,6 +38,7 @@ const config: GatsbyConfig = {
   //   __key: "pages"
   },
   `gatsby-transformer-plaintext`,
+  `gatsby-transformer-json`,
   {
     resolve: `gatsby-source-filesystem`,
     options: {

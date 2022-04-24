@@ -6,42 +6,123 @@ type Content = {
         content: string
     }
 }
+
+type Response = {
+    allDataJson : allDataJson,
+    multiApiSource: multiApiSource
+}
+
+type allDataJson = {
+    nodes: Node[]
+}
+
+type Node = {
+    Brand : string
+    Id : string
+    BrandProductId : string
+    Description : string
+    Image : string
+    Link : string
+    Name : string
+    Price : string
+}
+
+type multiApiSource = {
+    results: result[]
+}
+
+type result = {
+    brand : string
+    sku : string
+    description : string
+    imageUrl : string
+    stockMessage : string
+    uid : string
+    url : string
+    thumbnailImageUrl : string
+    price : string
+    name : string
+}
+
+function FindAffiliateLink(item:result, results:Node[]) {
+    var result = results.find(x=> x.BrandProductId ===item.sku);
+    
+    return result !== undefined ? result.Link : `https://www.sideshow.com${item.url}`;
+    
+}
+
+function CleanString(item: string) {
+    let cleanedItem = item.replace(/[#|"&\s:()'".;]/g, "-")
+               .replace(/---/g,"-")
+               .replace(/--/g,"-").trim().toLocaleLowerCase();
+    
+    if (cleanedItem.endsWith("-")) {
+        cleanedItem = cleanedItem.substring(0,cleanedItem.length -1);
+    }
+
+    return cleanedItem;
+}
+
 export const createPages: GatsbyNode["createPages"] = async ({ graphql, actions }) => {
 
     const { createPage } = actions
 
-    const data = await graphql<Content>(`
+    const data = await graphql<Response>(`
     {
-        plainText {
-          content
+        allDataJson {
+          nodes {
+            Brand
+            Id
+            BrandProductId
+            Description
+            Image
+            Link
+            Name
+            Price
+          }
+        }
+        multiApiSource {
+          results {
+            brand
+            sku
+            description
+            imageUrl
+            stockMessage
+            uid
+            url
+            thumbnailImageUrl
+            price
+            name
+          }
         }
       }
       
       
+      
       ` )
 
-    const postTemplate = path.resolve("./src/templates/Post.tsx")
+    const postTemplate = path.resolve("./src/templates/Post.tsx");
+    const sideShowData = data.data?.multiApiSource.results;
+    const sideShowNodes = data.data?.allDataJson.nodes;
 
-    const createPostPromise = data.data?.plainText.content.split('https://www.sideshowtoy.com/photo/|||||||').map((post) => {
+    const createPostPromise = sideShowData.map((post) => {
 
-        var postDetail = post.split("|");
-        const affiliateId = "3162046";
 
-        if (postDetail[1] !== undefined) {
-            var url = `/posts/${encodeURIComponent(postDetail[1].replace(/\s/g, "-").trim().toLocaleLowerCase())}`;
-            console.log(postDetail[11]);
+        if (post !== undefined) {
+            var url = `/${CleanString(post.brand)}/${CleanString(post.name)}`;
+
             createPage({
                 path: url,
                 component: postTemplate,
                 context: {
-                    id: postDetail[0],
-                    name: postDetail[1],
+                    id: post.sku,
+                    name: post.name,
                     url: url,
-                    merchant: postDetail[3],
-                    linkToProduct: postDetail[4].replace("YOURUSERID", affiliateId),
-                    productImage: postDetail[5],
-                    productGalleryImage: postDetail[6],
-                    description: postDetail[11],
+                    //merchant: postDetail[3],
+                    linkToProduct: FindAffiliateLink(post,sideShowNodes),
+                    productImage: post.imageUrl,
+                    productGalleryImage: post.thumbnailImageUrl,
+                    description: post.description,
                     // anything else you want to pass to your context
                 }
             })

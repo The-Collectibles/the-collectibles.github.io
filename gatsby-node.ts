@@ -1,15 +1,10 @@
 import type { GatsbyNode } from "gatsby"
 import * as path from "path"
 
-type Content = {
-    plainText: {
-        content: string
-    }
-}
 
 type Response = {
     allDataJson : allDataJson,
-    multiApiSource: multiApiSource
+    allCustomApi: allCustomApi
 }
 
 type allDataJson = {
@@ -27,8 +22,8 @@ type Node = {
     Price : string
 }
 
-type multiApiSource = {
-    results: result[]
+type allCustomApi = {
+    nodes: result[]
 }
 
 type result = {
@@ -81,8 +76,8 @@ export const createPages: GatsbyNode["createPages"] = async ({ graphql, actions 
             Price
           }
         }
-        multiApiSource {
-          results {
+        allCustomApi {
+          nodes {
             brand
             sku
             description
@@ -102,7 +97,7 @@ export const createPages: GatsbyNode["createPages"] = async ({ graphql, actions 
       ` )
 
     const postTemplate = path.resolve("./src/templates/Post.tsx");
-    const sideShowData = data.data?.multiApiSource.results;
+    const sideShowData = data.data?.allCustomApi.nodes;
     const sideShowNodes = data.data?.allDataJson.nodes;
 
     const createPostPromise = sideShowData.map((post) => {

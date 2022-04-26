@@ -10,6 +10,7 @@ type Result = {
   productImage: string;
   productGalleryImage: string;
   description: string;
+  price: string;
 };
 const IndexRoute = (data: PageProps<Result, Result>) => {
   console.log(data.pageContext.description);
@@ -17,7 +18,7 @@ const IndexRoute = (data: PageProps<Result, Result>) => {
     <main>
       <nav className="navbar navbar-expand-lg navbar-light bg-light">
         <div className="container-fluid">
-          <a className="navbar-brand" href="#">
+          <a className="navbar-brand" href="/">
             The Collectibles
           </a>
           <button
@@ -103,16 +104,26 @@ const IndexRoute = (data: PageProps<Result, Result>) => {
         />
       </Helmet>
 
-      <div className="container">
+      <div className="container my-4">
         <div className="row">
           <div className="col">
-            <img src={data.pageContext.productImage} />
-
+            <div className="card">
+              <div className="card-body">
+                <img className="rounded mx-auto d-block" src={data.pageContext.productImage} />
+              </div>
+            </div>
           </div>
           <div className="col">
             <h1>{data.pageContext.name}</h1>
-            <p dangerouslySetInnerHTML={{__html:data.pageContext.description}} />
-            <a className="btn btn-primary" href={data.pageContext.linkToProduct} target="_blank">
+            <p
+              dangerouslySetInnerHTML={{ __html: data.pageContext.description }}
+            />
+            <p className="fs-2 text">${data.pageContext.price}</p>
+            <a
+              className="btn btn-primary"
+              href={data.pageContext.linkToProduct}
+              target="_blank"
+            >
               Buy Product
             </a>
           </div>

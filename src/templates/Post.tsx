@@ -5,7 +5,6 @@ import NavBar from "../components/NavBar";
 import { result } from "../models/Types"
 
 const IndexRoute = (data: PageProps<result, result>) => {
-  console.log(data.pageContext.description);
   return (
     <main>
       <NavBar></NavBar>

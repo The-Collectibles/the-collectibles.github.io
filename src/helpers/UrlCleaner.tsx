@@ -2,7 +2,7 @@
 export default class UrlCleaner {
 
     Clean(item: string): string {
-        let cleanedItem = item.replace(/[#|"&\s:()'".;]/g, "-")
+        let cleanedItem = item.replace(/[#|"&\s:()'".;%]/g, "-")
             .replace(/---/g, "-")
             .replace(/--/g, "-").trim().toLocaleLowerCase();
 

@@ -1,6 +1,8 @@
 import type { GatsbyNode } from "gatsby"
 import * as path from "path"
+import UrlCleaner from "./src/helpers/UrlCleaner"
 
+const urlCleaner = new UrlCleaner();
 
 type Response = {
     allDataJson : allDataJson,
@@ -47,15 +49,7 @@ function FindAffiliateLink(item:result, results:Node[]) {
 }
 
 function CleanString(item: string) {
-    let cleanedItem = item.replace(/[#|"&\s:()'".;]/g, "-")
-               .replace(/---/g,"-")
-               .replace(/--/g,"-").trim().toLocaleLowerCase();
-    
-    if (cleanedItem.endsWith("-")) {
-        cleanedItem = cleanedItem.substring(0,cleanedItem.length -1);
-    }
-
-    return cleanedItem;
+    return urlCleaner.Clean(item);
 }
 
 export const createPages: GatsbyNode["createPages"] = async ({ graphql, actions }) => {

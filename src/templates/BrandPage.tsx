@@ -123,7 +123,7 @@ const BrandPage = (data: PageProps<data, result>) => {
           {data.data.allCustomApi.nodes.map(item => (
 
             <div className="col">
-            <div className="card w-75">
+            <div className="card">
               <img src={item.thumbnailImageUrl} className="img-fluid" alt="..." />
               <div className="card-body">
                 <h5 className="card-title">{item.name}</h5>

@@ -1,99 +1,14 @@
 import * as React from "react";
 import { PageProps } from "gatsby";
 import { Helmet } from "react-helmet";
+import NavBar from "../components/NavBar";
+import { result } from "../models/Types"
 
-type Result = {
-  url: string;
-  name: string;
-  merchant: string;
-  linkToProduct: string;
-  productImage: string;
-  productGalleryImage: string;
-  description: string;
-  price: string;
-};
-const IndexRoute = (data: PageProps<Result, Result>) => {
+const IndexRoute = (data: PageProps<result, result>) => {
   console.log(data.pageContext.description);
   return (
     <main>
-      <nav className="navbar navbar-expand-lg navbar-light bg-light">
-        <div className="container-fluid">
-          <a className="navbar-brand" href="/">
-            The Collectibles
-          </a>
-          <button
-            className="navbar-toggler"
-            type="button"
-            data-bs-toggle="collapse"
-            data-bs-target="#navbarSupportedContent"
-            aria-controls="navbarSupportedContent"
-            aria-expanded="false"
-            aria-label="Toggle navigation"
-          >
-            <span className="navbar-toggler-icon"></span>
-          </button>
-          <div className="collapse navbar-collapse" id="navbarSupportedContent">
-            <ul className="navbar-nav me-auto mb-2 mb-lg-0">
-              <li className="nav-item">
-                <a className="nav-link active" aria-current="page" href="#">
-                  Home
-                </a>
-              </li>
-              <li className="nav-item">
-                <a className="nav-link" href="#">
-                  Link
-                </a>
-              </li>
-              <li className="nav-item dropdown">
-                <a
-                  className="nav-link dropdown-toggle"
-                  href="#"
-                  id="navbarDropdown"
-                  role="button"
-                  data-bs-toggle="dropdown"
-                  aria-expanded="false"
-                >
-                  Dropdown
-                </a>
-                <ul className="dropdown-menu" aria-labelledby="navbarDropdown">
-                  <li>
-                    <a className="dropdown-item" href="#">
-                      Action
-                    </a>
-                  </li>
-                  <li>
-                    <a className="dropdown-item" href="#">
-                      Another action
-                    </a>
-                  </li>
-                  <li>
-                    <hr className="dropdown-divider" />
-                  </li>
-                  <li>
-                    <a className="dropdown-item" href="#">
-                      Something else here
-                    </a>
-                  </li>
-                </ul>
-              </li>
-              <li className="nav-item">
-                <a className="nav-link disabled">Disabled</a>
-              </li>
-            </ul>
-            <form className="d-flex">
-              <input
-                className="form-control me-2"
-                type="search"
-                placeholder="Search"
-                aria-label="Search"
-              />
-              <button className="btn btn-outline-success" type="submit">
-                Search
-              </button>
-            </form>
-          </div>
-        </div>
-      </nav>
+      <NavBar></NavBar>
       <Helmet>
         <title>{data.pageContext.name} | The Collectibles</title>
         <link
@@ -109,7 +24,10 @@ const IndexRoute = (data: PageProps<Result, Result>) => {
           <div className="col">
             <div className="card">
               <div className="card-body">
-                <img className="rounded mx-auto d-block" src={data.pageContext.productImage} />
+                <img
+                  className="rounded mx-auto d-block"
+                  src={data.pageContext.imageUrl}
+                />
               </div>
             </div>
           </div>
@@ -121,7 +39,7 @@ const IndexRoute = (data: PageProps<Result, Result>) => {
             <p className="fs-2 text">${data.pageContext.price}</p>
             <a
               className="btn btn-primary"
-              href={data.pageContext.linkToProduct}
+              href={data.pageContext.url}
               target="_blank"
             >
               Buy Product

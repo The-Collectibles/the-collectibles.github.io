@@ -1,51 +1,15 @@
 import type { GatsbyNode } from "gatsby"
 import * as path from "path"
 import UrlCleaner from "./src/helpers/UrlCleaner"
+import { SideshowData, DataNode, result } from "./src/models/Types"
 
 const urlCleaner = new UrlCleaner();
 
-type Response = {
-    allDataJson : allDataJson,
-    allCustomApi: allCustomApi
-}
+function FindAffiliateLink(item: result, results: DataNode[]) {
+    var result = results.find(x => x.BrandProductId === item.sku);
 
-type allDataJson = {
-    nodes: Node[]
-}
-
-type Node = {
-    Brand : string
-    Id : string
-    BrandProductId : string
-    Description : string
-    Image : string
-    Link : string
-    Name : string
-    Price : string
-}
-
-type allCustomApi = {
-    nodes: result[]
-}
-
-type result = {
-    brand : string
-    sku : string
-    description : string
-    imageUrl : string
-    stockMessage : string
-    uid : string
-    url : string
-    thumbnailImageUrl : string
-    price : string
-    name : string
-}
-
-function FindAffiliateLink(item:result, results:Node[]) {
-    var result = results.find(x=> x.BrandProductId ===item.sku);
-    
     return result !== undefined ? result.Link : `https://www.sideshow.com${item.url}`;
-    
+
 }
 
 function CleanString(item: string) {
@@ -56,7 +20,7 @@ export const createPages: GatsbyNode["createPages"] = async ({ graphql, actions 
 
     const { createPage } = actions
 
-    const data = await graphql<Response>(`
+    const data = await graphql<SideshowData>(`
     {
         allDataJson {
           nodes {
@@ -91,10 +55,10 @@ export const createPages: GatsbyNode["createPages"] = async ({ graphql, actions 
     const brandTemplate = path.resolve("./src/templates/BrandPage.tsx");
     const sideShowData = data.data?.allCustomApi.nodes;
     const sideShowAffiliate = data.data?.allDataJson.nodes;
-    
+
     var brands = sideShowData.filter((a, i) => sideShowData.findIndex((s) => a.brand === s.brand) === i);
 
-    const createBrandsPromise = brands.map((post)=> {
+    const createBrandsPromise = brands.map((post) => {
 
         if (post !== undefined) {
             var url = `/${CleanString(post.brand)}`;
@@ -122,11 +86,10 @@ export const createPages: GatsbyNode["createPages"] = async ({ graphql, actions 
                 context: {
                     id: post.sku,
                     name: post.name,
-                    url: url,
                     price: post.price,
-                    linkToProduct: FindAffiliateLink(post,sideShowAffiliate),
-                    productImage: post.imageUrl,
-                    productGalleryImage: post.thumbnailImageUrl,
+                    url: FindAffiliateLink(post, sideShowAffiliate),
+                    imageUrl: post.imageUrl,
+                    thumbnailImageUrl: post.thumbnailImageUrl,
                     description: post.description,
                     // anything else you want to pass to your context
                 }

@@ -2,6 +2,12 @@
 export default class UrlCleaner {
 
     Clean(item: string): string {
+
+        if(item === null || item == undefined){
+            return "default";
+        }
+
+
         let cleanedItem = item.replace(/[#|"&\s:()'".;%]/g, "-")
             .replace(/---/g, "-")
             .replace(/--/g, "-").trim().toLocaleLowerCase();

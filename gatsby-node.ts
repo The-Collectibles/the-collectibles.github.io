@@ -94,9 +94,27 @@ export const createPages: GatsbyNode["createPages"] = async ({ graphql, actions 
       ` )
 
     const postTemplate = path.resolve("./src/templates/Post.tsx");
+    const brandTemplate = path.resolve("./src/templates/BrandPage.tsx");
     const sideShowData = data.data?.allCustomApi.nodes;
     const sideShowAffiliate = data.data?.allDataJson.nodes;
     
+    var brands = sideShowData.filter((a, i) => sideShowData.findIndex((s) => a.brand === s.brand) === i);
+
+    const createBrandsPromise = brands.map((post)=> {
+
+        if (post !== undefined) {
+            var url = `/${CleanString(post.brand)}`;
+
+            createPage({
+                path: url,
+                component: brandTemplate,
+                context: {
+                    brand: post.brand
+                }
+            })
+        }
+
+    });
 
     const createPostPromise = sideShowData.map((post) => {
 
@@ -112,7 +130,6 @@ export const createPages: GatsbyNode["createPages"] = async ({ graphql, actions 
                     name: post.name,
                     url: url,
                     price: post.price,
-                    //merchant: postDetail[3],
                     linkToProduct: FindAffiliateLink(post,sideShowAffiliate),
                     productImage: post.imageUrl,
                     productGalleryImage: post.thumbnailImageUrl,
@@ -123,5 +140,5 @@ export const createPages: GatsbyNode["createPages"] = async ({ graphql, actions 
         }
     })
 
-    await Promise.all([createPostPromise])
+    await Promise.all([createPostPromise, createBrandsPromise])
 }

@@ -53,7 +53,7 @@ export const createPages: GatsbyNode["createPages"] = async ({ graphql, actions 
     const createBrandsPromise = brands.map((post) => {
 
         if (post !== undefined) {
-            var url = `/${urlCleaner.Clean(post.brand)}`;
+            var url = `/${urlCleaner.Clean(post.brand ?? "default")}`;
 
             createPage({
                 path: url,
@@ -71,7 +71,7 @@ export const createPages: GatsbyNode["createPages"] = async ({ graphql, actions 
 
 
         if (post !== undefined) {
-            var url = `/${urlCleaner.Clean(post.brand)}/${urlCleaner.Clean(post.name)}`;
+            var url = `/${urlCleaner.Clean(post.brand ?? "default")}/${urlCleaner.Clean(post.name)}`;
 
             createPage({
                 path: url,

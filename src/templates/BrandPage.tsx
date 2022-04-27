@@ -34,14 +34,14 @@ const BrandPage = (data: PageProps<data, result>) => {
           {data.data.allCustomApi.nodes.map((item) => (
             <div className="col">
               <div className="card">
-                <img
+                <img style={{maxHeight:"200px"}}
                   src={item.thumbnailImageUrl}
                   className="rounded mx-auto d-block-fluid"
                   alt="..."
                 />
                 <div className="card-body">
                   <h5 className="card-title">{item.name}</h5>
-                  <a
+                  <a target="_blank"
                     href={affiliateLinkFinder.FindAffiliateLink(
                       item.sku,
                       item.url,

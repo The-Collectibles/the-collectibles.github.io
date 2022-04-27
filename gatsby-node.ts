@@ -1,20 +1,12 @@
 import type { GatsbyNode } from "gatsby"
 import * as path from "path"
 import UrlCleaner from "./src/helpers/UrlCleaner"
-import { SideshowData, DataNode, result } from "./src/models/Types"
+import AffiliateLinkFinder from "./src/helpers/AffiliateLinkFinder"
+import { SideshowData } from "./src/models/Types"
 
 const urlCleaner = new UrlCleaner();
+const affiliateLinkFinder = new AffiliateLinkFinder();
 
-function FindAffiliateLink(item: result, results: DataNode[]) {
-    var result = results.find(x => x.BrandProductId === item.sku);
-
-    return result !== undefined ? result.Link : `https://www.sideshow.com${item.url}`;
-
-}
-
-function CleanString(item: string) {
-    return urlCleaner.Clean(item);
-}
 
 export const createPages: GatsbyNode["createPages"] = async ({ graphql, actions }) => {
 
@@ -61,13 +53,14 @@ export const createPages: GatsbyNode["createPages"] = async ({ graphql, actions 
     const createBrandsPromise = brands.map((post) => {
 
         if (post !== undefined) {
-            var url = `/${CleanString(post.brand)}`;
+            var url = `/${urlCleaner.Clean(post.brand)}`;
 
             createPage({
                 path: url,
                 component: brandTemplate,
                 context: {
-                    brand: post.brand
+                    brand: post.brand,
+                    affiliates: sideShowAffiliate
                 }
             })
         }
@@ -78,7 +71,7 @@ export const createPages: GatsbyNode["createPages"] = async ({ graphql, actions 
 
 
         if (post !== undefined) {
-            var url = `/${CleanString(post.brand)}/${CleanString(post.name)}`;
+            var url = `/${urlCleaner.Clean(post.brand)}/${urlCleaner.Clean(post.name)}`;
 
             createPage({
                 path: url,
@@ -87,7 +80,7 @@ export const createPages: GatsbyNode["createPages"] = async ({ graphql, actions 
                     id: post.sku,
                     name: post.name,
                     price: post.price,
-                    url: FindAffiliateLink(post, sideShowAffiliate),
+                    url: affiliateLinkFinder.FindAffiliateLink(post.sku, post.url, sideShowAffiliate),
                     imageUrl: post.imageUrl,
                     thumbnailImageUrl: post.thumbnailImageUrl,
                     description: post.description,

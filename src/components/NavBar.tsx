@@ -30,7 +30,7 @@ const NavBar = () => {
                 Hot Toys
               </a>
             </li>
-            <li className="nav-item dropdown">
+            {/* <li className="nav-item dropdown">
               <a
                 className="nav-link dropdown-toggle"
                 href="#"
@@ -40,8 +40,8 @@ const NavBar = () => {
                 aria-expanded="false"
               >
                 Dropdown
-              </a>
-              <ul className="dropdown-menu" aria-labelledby="navbarDropdown">
+              </a> */}
+              {/* <ul className="dropdown-menu" aria-labelledby="navbarDropdown">
                 <li>
                   <a className="dropdown-item" href="#">
                     Action
@@ -60,11 +60,11 @@ const NavBar = () => {
                     Something else here
                   </a>
                 </li>
-              </ul>
+              </ul> 
             </li>
             <li className="nav-item">
               <a className="nav-link disabled">Disabled</a>
-            </li>
+            </li>*/}
           </ul>
           <form className="d-flex">
             <input

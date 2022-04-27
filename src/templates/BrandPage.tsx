@@ -2,14 +2,14 @@ import * as React from "react";
 import { PageProps, graphql } from "gatsby";
 import { Helmet } from "react-helmet";
 import NavBar from "../components/NavBar";
-import { result, allCustomApi } from "../models/Types"
+import { result, allCustomApi } from "../models/Types";
+import AffiliateLinkFinder from "../helpers/AffiliateLinkFinder";
 
 type data = {
   allCustomApi: allCustomApi;
 };
-
+const affiliateLinkFinder = new AffiliateLinkFinder();
 const BrandPage = (data: PageProps<data, result>) => {
-
   return (
     <main>
       <NavBar></NavBar>
@@ -25,25 +25,35 @@ const BrandPage = (data: PageProps<data, result>) => {
 
       <div className="container my-4">
         <div className="row">
-          <div className="col"><h1>{data.pageContext.brand}</h1></div>
+          <div className="col">
+            <h1>{data.pageContext.brand}</h1>
+          </div>
         </div>
         <div className="row row-cols-1 row-cols-md-3 g-4">
           {console.log(data.data.allCustomApi)}
-          {data.data.allCustomApi.nodes.map(item => (
-
+          {data.data.allCustomApi.nodes.map((item) => (
             <div className="col">
-            <div className="card">
-              <img src={item.thumbnailImageUrl} className="rounded mx-auto d-block-fluid" alt="..." />
-              <div className="card-body">
-                <h5 className="card-title">{item.name}</h5>
+              <div className="card">
+                <img
+                  src={item.thumbnailImageUrl}
+                  className="rounded mx-auto d-block-fluid"
+                  alt="..."
+                />
+                <div className="card-body">
+                  <h5 className="card-title">{item.name}</h5>
+                  <a
+                    href={affiliateLinkFinder.FindAffiliateLink(
+                      item.sku,
+                      item.url,
+                      data.pageContext.affiliates
+                    )}
+                  >
+                    Buy Product
+                  </a>
+                </div>
               </div>
             </div>
-          </div>
-          
-          ))
-          }
-          
-
+          ))}
         </div>
       </div>
     </main>

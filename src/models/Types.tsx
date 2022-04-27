@@ -34,4 +34,5 @@ export type result = {
     thumbnailImageUrl : string
     price : string
     name : string
+    affiliates : DataNode[]
 }

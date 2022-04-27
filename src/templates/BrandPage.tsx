@@ -1,28 +1,13 @@
 import * as React from "react";
 import { PageProps, graphql } from "gatsby";
 import { Helmet } from "react-helmet";
-import NavBar from "../components/NavBar"
+import NavBar from "../components/NavBar";
+import { result, allCustomApi } from "../models/Types"
 
 type data = {
   allCustomApi: allCustomApi;
 };
 
-type allCustomApi = {
-  nodes: result[];
-};
-
-type result = {
-  brand: string;
-  sku: string;
-  description: string;
-  imageUrl: string;
-  stockMessage: string;
-  uid: string;
-  url: string;
-  thumbnailImageUrl: string;
-  price: string;
-  name: string;
-};
 const BrandPage = (data: PageProps<data, result>) => {
 
   return (

@@ -13,8 +13,10 @@ const config: GatsbyConfig = {
   }, {
     resolve: 'gatsby-source-custom-api',
     options: {
-      url:"https://floral-bush-8df5.arsenalhistory.workers.dev/",
-        //"http://localhost:8787/"
+      url: {
+        development: "http://localhost:5000/", // on "gatsby develop"
+        production: "https://floral-bush-8df5.arsenalhistory.workers.dev/" // on "gatsby build"
+      }
     },
   }, "gatsby-plugin-image", "gatsby-plugin-react-helmet", "gatsby-plugin-sitemap", {
     resolve: 'gatsby-plugin-manifest',
@@ -22,7 +24,6 @@ const config: GatsbyConfig = {
       "icon": "src/images/icon.png"
     }
   },
-  //`gatsby-transformer-plaintext`,
   `gatsby-transformer-json`,
   {
     resolve: `gatsby-source-filesystem`,

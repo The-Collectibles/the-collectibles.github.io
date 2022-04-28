@@ -26,7 +26,6 @@ const BrandPage = (data: PageProps<data, result>) => {
           </div>
         </div>
         <div className="row row-cols-1 row-cols-md-3 g-4">
-          {console.log(data.data.allCustomApi)}
           {data.data.allCustomApi.nodes.map((item) => (
             <div className="col">
               <div className="card">

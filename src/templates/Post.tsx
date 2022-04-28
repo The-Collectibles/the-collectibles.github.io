@@ -1,6 +1,5 @@
 import * as React from "react";
 import { PageProps } from "gatsby";
-import { Helmet } from "react-helmet";
 import NavBar from "../components/NavBar";
 import { result } from "../models/Types"
 import Head from "../components/Head";

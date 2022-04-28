@@ -1,6 +1,5 @@
 import * as React from "react"
 import NavBar from "../components/NavBar";
-import { Helmet } from "react-helmet";
 import Head from "../components/Head";
 
 const IndexPage = () => {

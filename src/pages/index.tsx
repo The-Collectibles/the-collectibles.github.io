@@ -1,16 +1,83 @@
-import * as React from "react"
+import * as React from "react";
 import NavBar from "../components/NavBar";
 import Head from "../components/Head";
+import { result, allCustomApi } from "../models/Types";
+import AffiliateLinkFinder from "../helpers/AffiliateLinkFinder";
+import UrlCleaner from "../helpers/UrlCleaner";
+import { graphql, PageProps } from "gatsby";
 
-const IndexPage = () => {
+const urlCleaner = new UrlCleaner();
+
+type data = {
+  allCustomApi: allCustomApi;
+};
+const affiliateLinkFinder = new AffiliateLinkFinder();
+
+const IndexPage = (data: PageProps<data, result>) => {
   return (
     <main>
-       <NavBar></NavBar>
-       <Head title="Your favourite collectibles all available here"></Head>
-      <title>Home Page</title>
-      
+      <NavBar></NavBar>
+      <Head title="Your favourite collectibles all available here"></Head>
+      <div className="container my-4">
+        <div className="row">
+          <div className="col">
+          <h1>Latest Products</h1>
+          </div>
+        </div>
+        <div className="row row-cols-1 row-cols-md-3 g-4">
+          {data.data.allCustomApi.nodes.map((item) => (
+            <div className="col">
+              <div className="card">
+                <img
+                  style={{ maxHeight: "200px" }}
+                  src={item.thumbnailImageUrl}
+                  className="rounded mx-auto d-block-fluid"
+                  alt={item.name}
+                />
+                <div className="card-body">
+                  <h5 className="card-title">{item.name}</h5>
+                </div>
+                <div className="card-footer text-muted">
+                  <a
+                    target="_blank"
+                    className="btn btn-primary"
+                    href={`https://www.sideshow.com${item.url}`}
+                  >
+                    Buy Product
+                  </a>
+                  <a
+                    className="btn btn-secondary float-end"
+                    href={`/${urlCleaner.Clean(item.brand)}/${urlCleaner.Clean(
+                      item.name
+                    )}`}
+                  >
+                    View Product
+                  </a>
+                </div>
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
     </main>
-  )
-}
+  );
+};
 
-export default IndexPage
+export const query = graphql`
+{
+  allCustomApi(limit: 6) {
+    nodes {
+        id
+        brand
+        name
+        url
+        thumbnailImageUrl
+        imageUrl
+        status
+        subsite
+      }
+    }
+}
+`;
+
+export default IndexPage;

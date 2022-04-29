@@ -1,6 +1,5 @@
 import * as React from "react";
 import { PageProps, graphql } from "gatsby";
-import { Helmet } from "react-helmet";
 import NavBar from "../components/NavBar";
 import Head from "../components/Head";
 import { result, allCustomApi } from "../models/Types";
@@ -33,7 +32,7 @@ const BrandPage = (data: PageProps<data, result>) => {
                   style={{ maxHeight: "200px" }}
                   src={item.thumbnailImageUrl}
                   className="rounded mx-auto d-block-fluid"
-                  alt="..."
+                  alt={item.name}
                 />
                 <div className="card-body">
                   <h5 className="card-title">{item.name}</h5>

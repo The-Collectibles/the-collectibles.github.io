@@ -35,6 +35,11 @@ const NavBar = () => {
                 Iron Studios
               </a>
             </li>
+            <li className="nav-item">
+              <a className="nav-link" href="/sideshow-collectibles">
+                Sideshow Collectibles
+              </a>
+            </li>
             {/* <li className="nav-item dropdown">
               <a
                 className="nav-link dropdown-toggle"

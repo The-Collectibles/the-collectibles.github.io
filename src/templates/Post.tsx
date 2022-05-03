@@ -24,6 +24,7 @@ const IndexRoute = (data: PageProps<result, result>) => {
           </div>
           <div className="col">
             <h1>{data.pageContext.name}</h1>
+            <a href={data.pageContext.brandUrl}>{data.pageContext.brand}</a>
             <p
               dangerouslySetInnerHTML={{ __html: data.pageContext.description }}
             />

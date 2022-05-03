@@ -71,7 +71,8 @@ export const createPages: GatsbyNode["createPages"] = async ({ graphql, actions 
 
 
         if (post !== undefined) {
-            var url = `/${urlCleaner.Clean(post.brand ?? "default")}/${urlCleaner.Clean(post.name)}`;
+          var brandUrl =`${urlCleaner.Clean(post.brand ?? "default")}`;
+            var url = `/${brandUrl}/${urlCleaner.Clean(post.name)}`;
 
             createPage({
                 path: url,
@@ -84,6 +85,8 @@ export const createPages: GatsbyNode["createPages"] = async ({ graphql, actions 
                     imageUrl: post.imageUrl,
                     thumbnailImageUrl: post.thumbnailImageUrl,
                     description: post.description,
+                    brand: post.brand,
+                    brandUrl: `/${brandUrl}/`
                     // anything else you want to pass to your context
                 }
             })

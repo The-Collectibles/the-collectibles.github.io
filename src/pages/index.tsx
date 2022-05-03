@@ -64,7 +64,7 @@ const IndexPage = (data: PageProps<data, result>) => {
           </div>
         </div>
 
-        <div className="row">
+        <div className="row mt-4 mb-4">
           <div className="col">
             <h1>Latest Products</h1>
           </div>

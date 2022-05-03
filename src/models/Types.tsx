@@ -25,6 +25,7 @@ export type allCustomApi = {
 
 export type result = {
     brand : string
+    brandUrl : string
     sku : string
     description : string
     imageUrl : string

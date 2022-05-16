@@ -120,6 +120,7 @@ export const query = graphql`
         imageUrl
         status
         subsite
+        sku
       }
     }
   }

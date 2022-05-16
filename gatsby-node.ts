@@ -10,6 +10,13 @@ const affiliateLinkFinder = new AffiliateLinkFinder();
 
 export const createPages: GatsbyNode["createPages"] = async ({ graphql, actions }) => {
 
+  // var promise = await fetch(
+  //   `https://3w37oq.a.searchspring.io/api/search/search.json?page=${i}&ajaxCatalog=v3&resultsFormat=native&siteId=3w37oq&resultsPerPage=${resultsPerPage}&sort=newest&q=&sort.ss_days_since_release=asc`
+  // );
+
+  //(await promise.json()).results;
+
+
     const { createPage } = actions
 
     const data = await graphql<SideshowData>(`
@@ -38,6 +45,7 @@ export const createPages: GatsbyNode["createPages"] = async ({ graphql, actions 
             thumbnailImageUrl
             price
             name
+            status
           }
         }
       }      
@@ -72,7 +80,7 @@ export const createPages: GatsbyNode["createPages"] = async ({ graphql, actions 
 
         if (post !== undefined) {
           var brandUrl =`${urlCleaner.Clean(post.brand ?? "default")}`;
-            var url = `/${brandUrl}/${urlCleaner.Clean(post.name)}`;
+            var url = `/${brandUrl}/${urlCleaner.Clean(post.name)}-${post.sku}`;
 
             createPage({
                 path: url,
@@ -86,7 +94,8 @@ export const createPages: GatsbyNode["createPages"] = async ({ graphql, actions 
                     thumbnailImageUrl: post.thumbnailImageUrl,
                     description: post.description,
                     brand: post.brand,
-                    brandUrl: `/${brandUrl}/`
+                    brandUrl: `/${brandUrl}/`,
+                    status: post.status
                     // anything else you want to pass to your context
                 }
             })

@@ -54,7 +54,7 @@ const BrandPage = (data: PageProps<data, result>) => {
                       className="btn btn-secondary float-end"
                       href={`/${urlCleaner.Clean(
                         item.brand
-                      )}/${urlCleaner.Clean(item.name)}`}
+                      )}/${urlCleaner.Clean(item.name)}-${item.sku}`}
                     >
                       View Product
                     </a>

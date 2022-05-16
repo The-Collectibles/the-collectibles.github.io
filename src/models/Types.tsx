@@ -36,4 +36,5 @@ export type result = {
     price : string
     name : string
     affiliates : DataNode[]
+    status: string
 }

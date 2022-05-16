@@ -1,7 +1,7 @@
 import * as React from "react";
 import { PageProps } from "gatsby";
 import NavBar from "../components/NavBar";
-import { result } from "../models/Types"
+import { result } from "../models/Types";
 import Head from "../components/Head";
 
 const IndexRoute = (data: PageProps<result, result>) => {
@@ -15,6 +15,9 @@ const IndexRoute = (data: PageProps<result, result>) => {
           <div className="col">
             <div className="card">
               <div className="card-body">
+                <span className="badge bg-secondary float-end">
+                  {data.pageContext.status}
+                </span>
                 <img
                   className="rounded mx-auto d-block"
                   src={data.pageContext.imageUrl}

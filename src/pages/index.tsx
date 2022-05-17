@@ -1,21 +1,21 @@
 import * as React from "react";
 import NavBar from "../components/NavBar";
 import Head from "../components/Head";
+import Card from "../components/Card";
 import { result, allCustomApi } from "../models/Types";
-import AffiliateLinkFinder from "../helpers/AffiliateLinkFinder";
-import UrlCleaner from "../helpers/UrlCleaner";
+import ProductLinkGenerator from "../helpers/ProductLinkGenerator";
 import { graphql, PageProps } from "gatsby";
 import HotToys from "../images/hot-toys.png";
 import IronStudios from "../images/iron-studios.png";
 import Sideshow from "../images/sideshow-collectibles.webp";
+import AffiliateLinkFinder from "../helpers/AffiliateLinkFinder";
 
-const urlCleaner = new UrlCleaner();
 
 type data = {
   allCustomApi: allCustomApi;
 };
+const productLinkGenerator = new ProductLinkGenerator();
 const affiliateLinkFinder = new AffiliateLinkFinder();
-
 const IndexPage = (data: PageProps<data, result>) => {
   return (
     <main>
@@ -72,34 +72,11 @@ const IndexPage = (data: PageProps<data, result>) => {
         <div className="row row-cols-1 row-cols-md-3 g-4">
           {data.data.allCustomApi.nodes.map((item) => (
             <div className="col">
-              <div className="card">
-                <img
-                  style={{ maxHeight: "200px" }}
-                  src={item.thumbnailImageUrl}
-                  className="rounded mx-auto d-block-fluid"
-                  alt={item.name}
-                />
-                <div className="card-body">
-                  <h5 className="card-title">{item.name}</h5>
-                </div>
-                <div className="card-footer text-muted">
-                  <a
-                    target="_blank"
-                    className="btn btn-primary"
-                    href={`https://www.sideshow.com${item.url}`}
-                  >
-                    Buy Product
-                  </a>
-                  <a
-                    className="btn btn-secondary float-end"
-                    href={`/${urlCleaner.Clean(item.brand)}/${urlCleaner.Clean(
-                      item.name
-                    )}-${item.sku}`}
-                  >
-                    View Product
-                  </a>
-                </div>
-              </div>
+              <Card name={item.name} thumbnailImageUrl={item.thumbnailImageUrl} url={affiliateLinkFinder.FindAffiliateLink(
+                  item.sku,
+                  item.url,
+                  data.pageContext.affiliates
+                )} productUrl={productLinkGenerator.CreateProductLink(item.brand,item.name,item.sku)}></Card>
             </div>
           ))}
         </div>

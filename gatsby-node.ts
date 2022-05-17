@@ -2,10 +2,12 @@ import type { GatsbyNode } from "gatsby"
 import * as path from "path"
 import UrlCleaner from "./src/helpers/UrlCleaner"
 import AffiliateLinkFinder from "./src/helpers/AffiliateLinkFinder"
+import ProductLinkGenerator from "./src/helpers/ProductLinkGenerator"
 import { SideshowData } from "./src/models/Types"
 
 const urlCleaner = new UrlCleaner();
 const affiliateLinkFinder = new AffiliateLinkFinder();
+const productLinkGenerator = new ProductLinkGenerator();
 
 
 export const createPages: GatsbyNode["createPages"] = async ({ graphql, actions }) => {
@@ -80,7 +82,7 @@ export const createPages: GatsbyNode["createPages"] = async ({ graphql, actions 
 
         if (post !== undefined) {
           var brandUrl =`${urlCleaner.Clean(post.brand ?? "default")}`;
-            var url = `/${brandUrl}/${urlCleaner.Clean(post.name)}-${post.sku}`;
+            var url = productLinkGenerator.CreateProductLink(post.brand,post.name,post.sku);
 
             createPage({
                 path: url,

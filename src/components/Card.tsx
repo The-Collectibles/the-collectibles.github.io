@@ -7,27 +7,27 @@ type CardProps = {
   url: string;
 };
 
-const Card = (item: CardProps) => {
+const Card = (props: CardProps) => {
   return (
     <div className="card">
       <img
         style={{ maxHeight: "200px" }}
-        src={item.thumbnailImageUrl}
+        src={props.thumbnailImageUrl}
         className="rounded mx-auto d-block-fluid"
-        alt={item.name}
+        alt={props.name}
       />
       <div className="card-body">
-        <h5 className="card-title">{item.name}</h5>
+        <h5 className="card-title">{props.name}</h5>
       </div>
       <div className="card-footer text-muted">
         <a
           target="_blank"
           className="btn btn-primary"
-          href={item.url}
+          href={props.url}
         >
           Buy Product
         </a>
-        <a className="btn btn-secondary float-end" href={item.productUrl}>
+        <a className="btn btn-secondary float-end" href={props.productUrl}>
           View Product
         </a>
       </div>

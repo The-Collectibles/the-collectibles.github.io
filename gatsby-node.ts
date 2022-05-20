@@ -4,6 +4,7 @@ import UrlCleaner from "./src/helpers/UrlCleaner"
 import AffiliateLinkFinder from "./src/helpers/AffiliateLinkFinder"
 import ProductLinkGenerator from "./src/helpers/ProductLinkGenerator"
 import { SideshowData } from "./src/models/Types"
+import config from "./gatsby-config"
 
 const urlCleaner = new UrlCleaner();
 const affiliateLinkFinder = new AffiliateLinkFinder();
@@ -19,9 +20,9 @@ export const createPages: GatsbyNode["createPages"] = async ({ graphql, actions 
   //(await promise.json()).results;
 
 
-    const { createPage } = actions
+  const { createPage } = actions
 
-    const data = await graphql<SideshowData>(`
+  const data = await graphql<SideshowData>(`
     {
         allDataJson {
           nodes {
@@ -53,56 +54,73 @@ export const createPages: GatsbyNode["createPages"] = async ({ graphql, actions 
       }      
       ` )
 
-    const postTemplate = path.resolve("./src/templates/Post.tsx");
-    const brandTemplate = path.resolve("./src/templates/BrandPage.tsx");
-    const sideShowData = data.data?.allCustomApi.nodes;
-    const sideShowAffiliate = data.data?.allDataJson.nodes;
+  const postTemplate = path.resolve("./src/templates/Post.tsx");
+  const brandTemplate = path.resolve("./src/templates/BrandPage.tsx");
+  const allPagesTemplate = path.resolve("./src/templates/AllProducts.tsx");
+  const sideShowData = data.data?.allCustomApi.nodes;
+  const sideShowAffiliate = data.data?.allDataJson.nodes;
 
-    var brands = sideShowData.filter((a, i) => sideShowData.findIndex((s) => a.brand === s.brand) === i);
+  var brands = sideShowData.filter((a, i) => sideShowData.findIndex((s) => a.brand === s.brand) === i);
 
-    const createBrandsPromise = brands.map((post) => {
+  const createBrandsPromise = brands.map((post) => {
 
-        if (post !== undefined) {
-            var url = `/${urlCleaner.Clean(post.brand ?? "default")}`;
+    if (post !== undefined) {
+      var url = `/${urlCleaner.Clean(post.brand ?? "default")}`;
 
-            createPage({
-                path: url,
-                component: brandTemplate,
-                context: {
-                    brand: post.brand,
-                    affiliates: sideShowAffiliate
-                }
-            })
+      createPage({
+        path: url,
+        component: brandTemplate,
+        context: {
+          brand: post.brand,
+          affiliates: sideShowAffiliate
         }
+      })
+    }
 
-    });
+  });
 
-    const createPostPromise = sideShowData.map((post) => {
+  const createPostPromise = sideShowData.map((post) => {
 
 
-        if (post !== undefined) {
-          var brandUrl =`${urlCleaner.Clean(post.brand ?? "default")}`;
-            var url = productLinkGenerator.CreateProductLink(post.brand,post.name,post.sku);
+    if (post !== undefined) {
+      var brandUrl = `${urlCleaner.Clean(post.brand ?? "default")}`;
+      var url = productLinkGenerator.CreateProductLink(post.brand, post.name, post.sku);
 
-            createPage({
-                path: url,
-                component: postTemplate,
-                context: {
-                    id: post.sku,
-                    name: post.name,
-                    price: post.price,
-                    url: affiliateLinkFinder.FindAffiliateLink(post.sku, post.url, sideShowAffiliate),
-                    imageUrl: post.imageUrl,
-                    thumbnailImageUrl: post.thumbnailImageUrl,
-                    description: post.description,
-                    brand: post.brand,
-                    brandUrl: `/${brandUrl}/`,
-                    status: post.status
-                    // anything else you want to pass to your context
-                }
-            })
+      createPage({
+        path: url,
+        component: postTemplate,
+        context: {
+          id: post.sku,
+          name: post.name,
+          price: post.price,
+          url: affiliateLinkFinder.FindAffiliateLink(post.sku, post.url, sideShowAffiliate),
+          imageUrl: post.imageUrl,
+          thumbnailImageUrl: post.thumbnailImageUrl,
+          description: post.description,
+          brand: post.brand,
+          brandUrl: `/${brandUrl}/`,
+          status: post.status
+          // anything else you want to pass to your context
         }
+      })
+    }
+  })
+
+  const posts = data.data?.allCustomApi.nodes
+  const postsPerPage = Number(config.siteMetadata.productsPerPage)
+  const numPages = Math.ceil(posts.length / postsPerPage)
+  const allPagesPromise = Array.from({ length: numPages }).forEach((_, i) => {
+    createPage({
+      path: i === 0 ? `/all-products` : `/all-products/${i + 1}`,
+      component: allPagesTemplate,
+      context: {
+        limit: postsPerPage,
+        skip: i * postsPerPage,
+        numPages,
+        currentPage: i + 1,
+      },
     })
+  })
 
-    await Promise.all([createPostPromise, createBrandsPromise])
+  await Promise.all([createPostPromise, createBrandsPromise, allPagesPromise])
 }

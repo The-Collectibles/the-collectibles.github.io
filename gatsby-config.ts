@@ -1,9 +1,14 @@
 import type { GatsbyConfig } from "gatsby";
 
+require("dotenv").config({
+  path: `.env.${process.env.NODE_ENV}`,
+})
+
 const config: GatsbyConfig = {
   siteMetadata: {
     title: ``,
-    siteUrl: `https://www.yourdomain.tld`
+    siteUrl: `https://www.yourdomain.tld`,
+    productsPerPage: Number(process.env.PRODUCTS_PER_PAGE)
   },
   plugins: [{
     resolve: 'gatsby-plugin-google-analytics',

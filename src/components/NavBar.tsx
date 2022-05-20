@@ -40,6 +40,11 @@ const NavBar = () => {
                 Sideshow Collectibles
               </a>
             </li>
+            <li className="nav-item">
+              <a className="nav-link" href="/all-products">
+                All Products
+              </a>
+            </li>
             {/* <li className="nav-item dropdown">
               <a
                 className="nav-link dropdown-toggle"

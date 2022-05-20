@@ -107,17 +107,18 @@ export const createPages: GatsbyNode["createPages"] = async ({ graphql, actions 
   })
 
   const posts = data.data?.allCustomApi.nodes
-  const postsPerPage = Number(config.siteMetadata.productsPerPage)
-  const numPages = Math.ceil(posts.length / postsPerPage)
-  const allPagesPromise = Array.from({ length: numPages }).forEach((_, i) => {
+  const productsPerPage = Number(config.siteMetadata.productsPerPage)
+  const numberOfPages = Math.ceil(posts.length / productsPerPage)
+  const allPagesPromise = Array.from({ length: numberOfPages }).forEach((_, i) => {
     createPage({
       path: i === 0 ? `/all-products` : `/all-products/${i + 1}`,
       component: allPagesTemplate,
       context: {
-        limit: postsPerPage,
-        skip: i * postsPerPage,
-        numPages,
+        limit: productsPerPage,
+        skip: i * productsPerPage,
+        numberOfPages: numberOfPages,
         currentPage: i + 1,
+        url: "/all-products"
       },
     })
   })

@@ -3,6 +3,9 @@ import { PageProps } from "gatsby";
 import NavBar from "../components/NavBar";
 import { result } from "../models/Types";
 import Head from "../components/Head";
+import ImageHelper from "../helpers/ImageHelper";
+
+const imageHelper = new ImageHelper();
 
 const IndexRoute = (data: PageProps<result, result>) => {
   return (
@@ -20,7 +23,7 @@ const IndexRoute = (data: PageProps<result, result>) => {
                 </span>
                 <img
                   className="rounded mx-auto d-block"
-                  src={data.pageContext.imageUrl}
+                  src={imageHelper.GetImageLink(data.pageContext.imageUrl)}
                 />
               </div>
             </div>

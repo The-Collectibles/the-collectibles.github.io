@@ -6,12 +6,15 @@ import { result, allCustomApi } from "../models/Types";
 import AffiliateLinkFinder from "../helpers/AffiliateLinkFinder";
 import ProductLinkGenerator from "../helpers/ProductLinkGenerator";
 import Card from "../components/Card";
+import ImageHelper from "../helpers/ImageHelper";
+
 
 type data = {
   allCustomApi: allCustomApi;
 };
 const affiliateLinkFinder = new AffiliateLinkFinder();
 const productLinkGenerator = new ProductLinkGenerator();
+const imageHelper = new ImageHelper();
 const BrandPage = (data: PageProps<data, result>) => {
   return (
     <main>
@@ -29,7 +32,7 @@ const BrandPage = (data: PageProps<data, result>) => {
             <div className="col">
               <Card
                 name={item.name}
-                thumbnailImageUrl={item.thumbnailImageUrl}
+                thumbnailImageUrl={imageHelper.GetImageLink(item.thumbnailImageUrl)}
                 url={affiliateLinkFinder.FindAffiliateLink(
                   item.sku,
                   item.url,

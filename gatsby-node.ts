@@ -3,12 +3,14 @@ import * as path from "path"
 import UrlCleaner from "./src/helpers/UrlCleaner"
 import AffiliateLinkFinder from "./src/helpers/AffiliateLinkFinder"
 import ProductLinkGenerator from "./src/helpers/ProductLinkGenerator"
+import ImageHelper from "./src/helpers/ImageHelper"
 import { SideshowData } from "./src/models/Types"
 import config from "./gatsby-config"
 
 const urlCleaner = new UrlCleaner();
 const affiliateLinkFinder = new AffiliateLinkFinder();
 const productLinkGenerator = new ProductLinkGenerator();
+const imageHelper = new ImageHelper();
 
 
 export const createPages: GatsbyNode["createPages"] = async ({ graphql, actions }) => {
@@ -95,7 +97,7 @@ export const createPages: GatsbyNode["createPages"] = async ({ graphql, actions 
           price: post.price,
           url: affiliateLinkFinder.FindAffiliateLink(post.sku, post.url, sideShowAffiliate),
           imageUrl: post.imageUrl,
-          thumbnailImageUrl: post.thumbnailImageUrl,
+          thumbnailImageUrl: imageHelper.GetImageLink(post.thumbnailImageUrl),
           description: post.description,
           brand: post.brand,
           brandUrl: `/${brandUrl}/`,

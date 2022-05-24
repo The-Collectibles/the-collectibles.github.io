@@ -9,6 +9,7 @@ import HotToys from "../images/hot-toys.png";
 import IronStudios from "../images/iron-studios.png";
 import Sideshow from "../images/sideshow-collectibles.webp";
 import AffiliateLinkFinder from "../helpers/AffiliateLinkFinder";
+import ImageHelper from "../helpers/ImageHelper"
 
 
 type data = {
@@ -16,6 +17,7 @@ type data = {
 };
 const productLinkGenerator = new ProductLinkGenerator();
 const affiliateLinkFinder = new AffiliateLinkFinder();
+const imageHelper = new ImageHelper();
 const IndexPage = (data: PageProps<data, result>) => {
   return (
     <main>
@@ -72,7 +74,7 @@ const IndexPage = (data: PageProps<data, result>) => {
         <div className="row row-cols-1 row-cols-md-3 g-4">
           {data.data.allCustomApi.nodes.map((item) => (
             <div className="col">
-              <Card name={item.name} thumbnailImageUrl={item.thumbnailImageUrl} url={affiliateLinkFinder.FindAffiliateLink(
+              <Card name={item.name} thumbnailImageUrl={imageHelper.GetImageLink(item.thumbnailImageUrl)} url={affiliateLinkFinder.FindAffiliateLink(
                   item.sku,
                   item.url,
                   data.pageContext.affiliates

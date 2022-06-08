@@ -8,16 +8,16 @@ import { graphql, PageProps } from "gatsby";
 import HotToys from "../images/hot-toys.png";
 import IronStudios from "../images/iron-studios.png";
 import Sideshow from "../images/sideshow-collectibles.webp";
-import AffiliateLinkFinder from "../helpers/AffiliateLinkFinder";
-import ImageHelper from "../helpers/ImageHelper"
+import SideshowAffiliateLinkFinder from "../helpers/SideshowAffiliateLinkFinder";
+import SideshowImageHelper from "../helpers/ImageHelper"
 
 
 type data = {
   allCustomApi: allCustomApi;
 };
 const productLinkGenerator = new ProductLinkGenerator();
-const affiliateLinkFinder = new AffiliateLinkFinder();
-const imageHelper = new ImageHelper();
+const affiliateLinkFinder = new SideshowAffiliateLinkFinder();
+const imageHelper = new SideshowImageHelper();
 const IndexPage = (data: PageProps<data, result>) => {
   return (
     <main>

@@ -1,6 +1,6 @@
-import UrlCleaner from "../helpers/UrlCleaner";
+import SideshowUrlCleaner from "./SideshowUrlCleaner";
 
-const urlCleaner = new UrlCleaner();
+const urlCleaner = new SideshowUrlCleaner();
 
 export default class ProductLinkGenerator {
 

@@ -3,9 +3,9 @@ import { PageProps } from "gatsby";
 import NavBar from "../components/NavBar";
 import { result } from "../models/Types";
 import Head from "../components/Head";
-import ImageHelper from "../helpers/ImageHelper";
+import SideshowImageHelper from "../helpers/ImageHelper";
 
-const imageHelper = new ImageHelper();
+const imageHelper = new SideshowImageHelper();
 
 const IndexRoute = (data: PageProps<result, result>) => {
   return (

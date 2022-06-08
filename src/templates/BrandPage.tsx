@@ -3,18 +3,18 @@ import { PageProps, graphql } from "gatsby";
 import NavBar from "../components/NavBar";
 import Head from "../components/Head";
 import { result, allCustomApi } from "../models/Types";
-import AffiliateLinkFinder from "../helpers/AffiliateLinkFinder";
+import SideshowAffiliateLinkFinder from "../helpers/SideshowAffiliateLinkFinder";
 import ProductLinkGenerator from "../helpers/ProductLinkGenerator";
 import Card from "../components/Card";
-import ImageHelper from "../helpers/ImageHelper";
+import SideshowImageHelper from "../helpers/ImageHelper";
 
 
 type data = {
   allCustomApi: allCustomApi;
 };
-const affiliateLinkFinder = new AffiliateLinkFinder();
+const affiliateLinkFinder = new SideshowAffiliateLinkFinder();
 const productLinkGenerator = new ProductLinkGenerator();
-const imageHelper = new ImageHelper();
+const imageHelper = new SideshowImageHelper();
 const BrandPage = (data: PageProps<data, result>) => {
   return (
     <main>

@@ -20,6 +20,7 @@ const Head = (props : HeadProps) => {
         integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p"
         crossOrigin="anonymous"
       ></script>
+      <meta name="p:domain_verify" content="8cf098b022e42f2e24bf7f17d13fe01c"/>
     </Helmet>
   );
 };

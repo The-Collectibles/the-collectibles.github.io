@@ -15,11 +15,13 @@ const imageHelper = new ImageHelper();
 
 export const createPages: GatsbyNode["createPages"] = async ({ graphql, actions }) => {
 
-  // var promise = await fetch(
-  //   `https://3w37oq.a.searchspring.io/api/search/search.json?page=${i}&ajaxCatalog=v3&resultsFormat=native&siteId=3w37oq&resultsPerPage=${resultsPerPage}&sort=newest&q=&sort.ss_days_since_release=asc`
-  // );
+  var promise = await fetch(
+    `https://floral-bush-8df5.arsenalhistory.workers.dev/`
+  );
 
-  //(await promise.json()).results;
+  const sideShowData = (await promise.json()).results;
+
+  
 
 
   const { createPage } = actions
@@ -38,28 +40,12 @@ export const createPages: GatsbyNode["createPages"] = async ({ graphql, actions 
             Price
           }
         }
-        allCustomApi {
-          nodes {
-            brand
-            sku
-            description
-            imageUrl
-            stockMessage
-            uid
-            url
-            thumbnailImageUrl
-            price
-            name
-            status
-          }
-        }
       }      
       ` )
 
   const postTemplate = path.resolve("./src/templates/Post.tsx");
   const brandTemplate = path.resolve("./src/templates/BrandPage.tsx");
   const allPagesTemplate = path.resolve("./src/templates/AllProducts.tsx");
-  const sideShowData = data.data?.allCustomApi.nodes;
   const sideShowAffiliate = data.data?.allDataJson.nodes;
 
   var brands = sideShowData.filter((a, i) => sideShowData.findIndex((s) => a.brand === s.brand) === i);
@@ -108,7 +94,7 @@ export const createPages: GatsbyNode["createPages"] = async ({ graphql, actions 
     }
   })
 
-  const posts = data.data?.allCustomApi.nodes
+  const posts = sideShowData
   const productsPerPage = Number(config.siteMetadata.productsPerPage)
   const numberOfPages = Math.ceil(posts.length / productsPerPage)
   const allPagesPromise = Array.from({ length: numberOfPages }).forEach((_, i) => {

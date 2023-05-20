@@ -10,20 +10,7 @@ const config: GatsbyConfig = {
     siteUrl: `https://the-collectibles.github.io`,
     productsPerPage: Number(process.env.PRODUCTS_PER_PAGE)
   },
-  plugins: [{
-    resolve: 'gatsby-plugin-google-analytics',
-    options: {
-      "trackingId": "test"
-    }
-  }, {
-    resolve: 'gatsby-source-custom-api',
-    options: {
-      url: {
-        development: "https://floral-bush-8df5.arsenalhistory.workers.dev/", // on "gatsby develop"
-        production: "https://floral-bush-8df5.arsenalhistory.workers.dev/" // on "gatsby build"
-      }
-    },
-  }, "gatsby-plugin-image", "gatsby-plugin-sitemap", {
+  plugins: ["gatsby-plugin-image", {
     resolve: 'gatsby-plugin-manifest',
     options: {
       "icon": "src/images/icon.png"

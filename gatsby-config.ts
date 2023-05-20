@@ -7,7 +7,7 @@ require("dotenv").config({
 const config: GatsbyConfig = {
   siteMetadata: {
     title: ``,
-    siteUrl: `https://www.yourdomain.tld`,
+    siteUrl: `https://the-collectibles.github.io`,
     productsPerPage: Number(process.env.PRODUCTS_PER_PAGE)
   },
   plugins: [{
@@ -19,11 +19,11 @@ const config: GatsbyConfig = {
     resolve: 'gatsby-source-custom-api',
     options: {
       url: {
-        development: "http://localhost:5000/", // on "gatsby develop"
+        development: "https://floral-bush-8df5.arsenalhistory.workers.dev/", // on "gatsby develop"
         production: "https://floral-bush-8df5.arsenalhistory.workers.dev/" // on "gatsby build"
       }
     },
-  }, "gatsby-plugin-image", "gatsby-plugin-react-helmet", "gatsby-plugin-sitemap", {
+  }, "gatsby-plugin-image", "gatsby-plugin-sitemap", {
     resolve: 'gatsby-plugin-manifest',
     options: {
       "icon": "src/images/icon.png"
@@ -34,6 +34,48 @@ const config: GatsbyConfig = {
     resolve: `gatsby-source-filesystem`,
     options: {
       path: `./src/data/`,
+    },
+  },
+  {
+    resolve: `gatsby-plugin-feed`,
+    options: {
+      feeds: [
+        {
+          serialize: ({ query: { allCustomApi } }) => {
+            console.log(allCustomApi);
+            return allCustomApi.nodes.map(node => {
+              return Object.assign({}, {
+                description: node.description,
+                title: node.name,
+                image: node.imageUrl,
+                //date: enode.frontmatter.date,
+                url: node.url,
+                guid: node.uid,
+              })
+            })
+          },
+          query: `
+          {
+            allCustomApi {
+              nodes {
+                brand
+                sku
+                description
+                imageUrl
+                stockMessage
+                uid
+                url
+                thumbnailImageUrl
+                price
+                name
+              }
+            }
+          }
+          `,
+          output: "/rss.xml",
+          title: "The Collectibles",
+        },
+      ],
     },
   },
 ]

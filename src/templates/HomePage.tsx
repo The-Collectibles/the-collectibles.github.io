@@ -4,7 +4,7 @@ import Head from "../components/Head";
 import Card from "../components/Card";
 import { result, allCustomApi } from "../models/Types";
 import ProductLinkGenerator from "../helpers/ProductLinkGenerator";
-import { graphql, PageProps } from "gatsby";
+import { PageProps } from "gatsby";
 import HotToys from "../images/hot-toys.png";
 import IronStudios from "../images/iron-studios.png";
 import Sideshow from "../images/sideshow-collectibles.webp";
@@ -12,16 +12,14 @@ import SideshowAffiliateLinkFinder from "../helpers/SideshowAffiliateLinkFinder"
 import SideshowImageHelper from "../helpers/ImageHelper"
 
 
-type data = {
-  allCustomApi: allCustomApi;
-};
 const productLinkGenerator = new ProductLinkGenerator();
 const affiliateLinkFinder = new SideshowAffiliateLinkFinder();
 const imageHelper = new SideshowImageHelper();
-const IndexPage = (data: PageProps<data, result>) => {
+const HomePage = (data: PageProps<result, allCustomApi>) => {
   return (
     <main>
       <NavBar></NavBar>
+      {console.log(data)}
       <Head title="Your favourite collectibles all available here"></Head>
       <div className="container my-4">
         <div className="row row-cols-1 row-cols-md-3 g-4">
@@ -72,7 +70,7 @@ const IndexPage = (data: PageProps<data, result>) => {
           </div>
         </div>
         <div className="row row-cols-1 row-cols-md-3 g-4">
-          {data.data.allCustomApi.nodes.map((item) => (
+          {data.pageContext.nodes.map((item) => (
             <div className="col">
               <Card name={item.name} thumbnailImageUrl={imageHelper.GetImageLink(item.thumbnailImageUrl)} url={affiliateLinkFinder.FindAffiliateLink(
                   item.sku,
@@ -87,22 +85,5 @@ const IndexPage = (data: PageProps<data, result>) => {
   );
 };
 
-export const query = graphql`
-  {
-    allCustomApi(limit: 6) {
-      nodes {
-        id
-        brand
-        name
-        url
-        thumbnailImageUrl
-        imageUrl
-        status
-        subsite
-        sku
-      }
-    }
-  }
-`;
 
-export default IndexPage;
+export default HomePage;

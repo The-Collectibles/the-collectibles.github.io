@@ -29,7 +29,6 @@ const config: GatsbyConfig = {
       feeds: [
         {
           serialize: ({ query: { allCustomApi } }) => {
-            console.log(allCustomApi);
             return allCustomApi.nodes.map(node => {
               return Object.assign({}, {
                 description: node.description,

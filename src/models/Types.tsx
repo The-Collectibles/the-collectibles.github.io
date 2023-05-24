@@ -20,8 +20,14 @@ export type DataNode = {
 
 export type allCustomApi = {
     nodes: result[]
+    affiliates : DataNode[]
 }
 
+export type brand = {
+    brand : string
+    nodes : result[]
+    affiliates : DataNode[]
+}
 
 export type result = {
     brand : string

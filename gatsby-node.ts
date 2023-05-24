@@ -6,6 +6,7 @@ import ProductLinkGenerator from "./src/helpers/ProductLinkGenerator"
 import ImageHelper from "./src/helpers/ImageHelper"
 import { SideshowData } from "./src/models/Types"
 import config from "./gatsby-config"
+import fetch from "node-fetch"
 
 const urlCleaner = new UrlCleaner();
 const affiliateLinkFinder = new AffiliateLinkFinder();
@@ -19,10 +20,7 @@ export const createPages: GatsbyNode["createPages"] = async ({ graphql, actions 
     `https://floral-bush-8df5.arsenalhistory.workers.dev/`
   );
 
-  const sideShowData = (await promise.json()).results;
-
-  
-
+  const sideShowData = await promise.json();
 
   const { createPage } = actions
 
@@ -46,11 +44,14 @@ export const createPages: GatsbyNode["createPages"] = async ({ graphql, actions 
   const postTemplate = path.resolve("./src/templates/Post.tsx");
   const brandTemplate = path.resolve("./src/templates/BrandPage.tsx");
   const allPagesTemplate = path.resolve("./src/templates/AllProducts.tsx");
+  const homePageTemplate = path.resolve("./src/templates/HomePage.tsx");
   const sideShowAffiliate = data.data?.allDataJson.nodes;
 
   var brands = sideShowData.filter((a, i) => sideShowData.findIndex((s) => a.brand === s.brand) === i);
 
   const createBrandsPromise = brands.map((post) => {
+
+    let brandPosts = sideShowData.filter((a) => a.brand === post.brand); 
 
     if (post !== undefined) {
       var url = `/${urlCleaner.Clean(post.brand ?? "default")}`;
@@ -60,14 +61,15 @@ export const createPages: GatsbyNode["createPages"] = async ({ graphql, actions 
         component: brandTemplate,
         context: {
           brand: post.brand,
-          affiliates: sideShowAffiliate
+          affiliates: sideShowAffiliate,
+          nodes : brandPosts
         }
       })
     }
 
   });
 
-  const createPostPromise = sideShowData.map((post) => {
+   const createProductPagePromise = sideShowData.map((post) => {
 
 
     if (post !== undefined) {
@@ -78,16 +80,11 @@ export const createPages: GatsbyNode["createPages"] = async ({ graphql, actions 
         path: url,
         component: postTemplate,
         context: {
+          ...post,
           id: post.sku,
-          name: post.name,
-          price: post.price,
           url: affiliateLinkFinder.FindAffiliateLink(post.sku, post.url, sideShowAffiliate),
-          imageUrl: post.imageUrl,
           thumbnailImageUrl: imageHelper.GetImageLink(post.thumbnailImageUrl),
-          description: post.description,
-          brand: post.brand,
-          brandUrl: `/${brandUrl}/`,
-          status: post.status
+          brandUrl: `/${brandUrl}/`
           // anything else you want to pass to your context
         }
       })
@@ -98,6 +95,10 @@ export const createPages: GatsbyNode["createPages"] = async ({ graphql, actions 
   const productsPerPage = Number(config.siteMetadata.productsPerPage)
   const numberOfPages = Math.ceil(posts.length / productsPerPage)
   const allPagesPromise = Array.from({ length: numberOfPages }).forEach((_, i) => {
+
+    let paginatedProducts = posts.slice(((i+1) - 1) * productsPerPage, (i+1) * productsPerPage)
+
+
     createPage({
       path: i === 0 ? `/all-products` : `/all-products/${i + 1}`,
       component: allPagesTemplate,
@@ -106,10 +107,21 @@ export const createPages: GatsbyNode["createPages"] = async ({ graphql, actions 
         skip: i * productsPerPage,
         numberOfPages: numberOfPages,
         currentPage: i + 1,
-        url: "/all-products"
+        url: "/all-products",
+        nodes: paginatedProducts
       },
     })
   })
 
-  await Promise.all([createPostPromise, createBrandsPromise, allPagesPromise])
+  const createHomePagePromise =  createPage({
+    path: `/`,
+    component: homePageTemplate,
+    context: {
+      nodes: sideShowData.slice(0,6),
+      affiliates: sideShowAffiliate
+    },
+  })
+
+  //await Promise.all([createProductPagePromise, createBrandsPromise, allPagesPromise, createHomePagePromise])
+  await Promise.all([createProductPagePromise,createBrandsPromise,createHomePagePromise])
 }

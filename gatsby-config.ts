@@ -23,47 +23,47 @@ const config: GatsbyConfig = {
       path: `./src/data/`,
     },
   },
-  {
-    resolve: `gatsby-plugin-feed`,
-    options: {
-      feeds: [
-        {
-          serialize: ({ query: { allCustomApi } }) => {
-            return allCustomApi.nodes.map(node => {
-              return Object.assign({}, {
-                description: node.description,
-                title: node.name,
-                image: node.imageUrl,
-                //date: enode.frontmatter.date,
-                url: node.url,
-                guid: node.uid,
-              })
-            })
-          },
-          query: `
-          {
-            allCustomApi {
-              nodes {
-                brand
-                sku
-                description
-                imageUrl
-                stockMessage
-                uid
-                url
-                thumbnailImageUrl
-                price
-                name
-              }
-            }
-          }
-          `,
-          output: "/rss.xml",
-          title: "The Collectibles",
-        },
-      ],
-    },
-  },
+  // {
+  //   resolve: `gatsby-plugin-feed`,
+  //   options: {
+  //     feeds: [
+  //       {
+  //         serialize: ({ query: { allCustomApi } }) => {
+  //           return allCustomApi.nodes.map(node => {
+  //             return Object.assign({}, {
+  //               description: node.description,
+  //               title: node.name,
+  //               image: node.imageUrl,
+  //               //date: enode.frontmatter.date,
+  //               url: node.url,
+  //               guid: node.uid,
+  //             })
+  //           })
+  //         },
+  //         query: `
+  //         {
+  //           allCustomApi {
+  //             nodes {
+  //               brand
+  //               sku
+  //               description
+  //               imageUrl
+  //               stockMessage
+  //               uid
+  //               url
+  //               thumbnailImageUrl
+  //               price
+  //               name
+  //             }
+  //           }
+  //         }
+  //         `,
+  //         output: "/rss.xml",
+  //         title: "The Collectibles",
+  //       },
+  //     ],
+  //   },
+  // },
 ]
 };
 

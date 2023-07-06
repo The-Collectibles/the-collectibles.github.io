@@ -12,7 +12,7 @@ const Pagination = (props: PaginationProps) => {
       <ul className="pagination">
         {Array.from({length:props.numberOfPages}, (_, i) => (
           
-            <li className={`page-item ${i===props.currentPage - 1 ? "active" : ""}`}>
+            <li key={"key"+i} className={`page-item ${i===props.currentPage - 1 ? "active" : ""}`}>
               <a className="page-link" href={`${props.url}/${i ===0 ? "" : i+1}`}>
                 {i+1}
               </a>

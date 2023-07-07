@@ -69,7 +69,7 @@ export default async function Home() {
         </div>
         <div className="row row-cols-1 row-cols-md-3 g-4">
           {items.map((item) => (
-            <div className="col">
+            <div className="col" key={item.uid}>
               <Card name={item.name} thumbnailImageUrl={imageHelper.GetImageLink(item.thumbnailImageUrl)} 
               url={`https://www.sideshow.com${item.url}`} productUrl={productLinkGenerator.CreateProductLink(item.brand,item.name,item.sku)}></Card>
             </div>

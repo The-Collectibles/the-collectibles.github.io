@@ -6,7 +6,6 @@ import SideshowUrlCleaner from "@/domain/SideshowUrlCleaner";
 import { result } from "@/models/Types";
 
 const sideshowUrlCleaner = new SideshowUrlCleaner();
-const productLinkGenerator = new ProductLinkGenerator();
 const allData = async () => {
   var items = [];
   var itemCount = 7;
@@ -39,7 +38,6 @@ export async function generateStaticParams() {
 
 export default async function Brand({ params }: { params: { brand: string } }) {
   const gatheredResponses = await allData();
-  const affiliateLinkFinder = new SideshowAffiliateLinkFinder();
   const productLinkGenerator = new ProductLinkGenerator();
   const imageHelper = new SideshowImageHelper();
   const getProducts = gatheredResponses.filter(
@@ -56,7 +54,7 @@ export default async function Brand({ params }: { params: { brand: string } }) {
         </div>
         <div className="row row-cols-1 row-cols-md-3 g-4">
           {getProducts.map((item) => (
-            <div className="col">
+            <div className="col" key={item.uid}>
               <Card
                 name={item.name}
                 thumbnailImageUrl={imageHelper.GetImageLink(item.thumbnailImageUrl)}
@@ -72,10 +70,7 @@ export default async function Brand({ params }: { params: { brand: string } }) {
         </div>
       </div>
 
-      {getProducts.map((x) => (
-        <div className="col">{x.name}</div>
-      ))}
-      ;
+
     </main>
   );
 }

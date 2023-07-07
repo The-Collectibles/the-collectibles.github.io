@@ -11,7 +11,7 @@ type CardProps = {
 const Card = (props: CardProps) => {
   return (
     <div className="card">
-      <Image
+      <img
         style={{ maxHeight: "200px" }}
         src={props.thumbnailImageUrl}
         className="rounded mx-auto d-block-fluid"

@@ -44,7 +44,7 @@ export default async function Product({
                 <span className="badge bg-secondary float-end">
                   {getProduct.status}
                 </span>
-                <Image
+                <img
                 alt={getProduct.name}
                   className="rounded mx-auto d-block"
                   src={imageHelper.GetImageLink(getProduct.imageUrl)}
@@ -55,8 +55,9 @@ export default async function Product({
           <div className="col">
             <h1>{getProduct.name}</h1>
             <a href={getProduct.brandUrl}>{getProduct.brand}</a>
+         
             <p
-              dangerouslySetInnerHTML={{ __html: getProduct.description }}
+              dangerouslySetInnerHTML={{ __html: getProduct.description ?? "" }}
             />
             <p className="fs-2 text">${getProduct.price}</p>
             <a

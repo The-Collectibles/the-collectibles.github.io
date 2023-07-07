@@ -1,3 +1,4 @@
+import Image from "next/image";
 import * as React from "react";
 
 type CardProps = {
@@ -10,7 +11,7 @@ type CardProps = {
 const Card = (props: CardProps) => {
   return (
     <div className="card">
-      <img
+      <Image
         style={{ maxHeight: "200px" }}
         src={props.thumbnailImageUrl}
         className="rounded mx-auto d-block-fluid"

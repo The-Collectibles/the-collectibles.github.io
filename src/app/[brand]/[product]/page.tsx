@@ -2,6 +2,7 @@ import SideshowImageHelper from "@/domain/ImageHelper";
 import ProductLinkGenerator from "@/domain/ProductLinkGenerator";
 import SideshowUrlCleaner from "@/domain/SideshowUrlCleaner";
 import { result } from "@/models/Types";
+import Image from "next/image";
 
 const sideshowUrlCleaner = new SideshowUrlCleaner();
 const productLinkGenerator = new ProductLinkGenerator();
@@ -48,6 +49,9 @@ export default async function Product({
     (x) => sideshowUrlCleaner.Clean(x.name) === params.product
   );
 
+  if(getProduct === undefined) {
+    return;
+  }
 
 
   return (
@@ -60,7 +64,8 @@ export default async function Product({
                 <span className="badge bg-secondary float-end">
                   {getProduct.status}
                 </span>
-                <img
+                <Image
+                alt={getProduct.name}
                   className="rounded mx-auto d-block"
                   src={imageHelper.GetImageLink(getProduct.imageUrl)}
                 />

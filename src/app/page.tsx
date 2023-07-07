@@ -1,7 +1,6 @@
 import Card from '@/components/Card';
 import SideshowImageHelper from '@/domain/ImageHelper';
 import ProductLinkGenerator from '@/domain/ProductLinkGenerator';
-import SideshowAffiliateLinkFinder from '@/domain/SideshowAffiliateLinkFinder';
 import { result } from '@/models/Types';
 import Image from 'next/image'
 async function GetAllItems() {
@@ -38,7 +37,7 @@ export default async function Home() {
       <div className="col">
             <div className="card">
             <a href="/hot-toys" style={{display:"inherit"}}> 
-            <img src="/hot-toys.png" alt="Hot Toys logo" max-height="200px" />
+            <Image src="/hot-toys.png" alt="Hot Toys logo" max-height="200px" />
             </a>
               <div className="card-footer text-muted">
                 Hot Toys Collectibles
@@ -47,7 +46,7 @@ export default async function Home() {
           </div>
           <div className="col">
             <div className="card bg-dark mb-3">
-            <a href="/iron-studios" style={{display:"inherit"}}><img src="/iron-studios.png" alt="Iron Studios logo" max-height="200px" /></a>
+            <a href="/iron-studios" style={{display:"inherit"}}><Image src="/iron-studios.png" alt="Iron Studios logo" max-height="200px" /></a>
               <div className="card-footer text-muted">
                 Iron Studios Collectibles
               </div>
@@ -55,7 +54,7 @@ export default async function Home() {
           </div>
           <div className="col">
             <div className="card" style={{minHeight:"200px"}}>
-            <a href="/sideshow-collectibles" style={{display:"inherit"}}><img src="/sideshow-collectibles.webp" alt="Sideshow logo" max-height="200px" /></a>
+            <a href="/sideshow-collectibles" style={{display:"inherit"}}><Image src="/sideshow-collectibles.webp" alt="Sideshow logo" max-height="200px" /></a>
               <div className="card-footer text-muted">
                 Sideshow Collectibles
               </div>

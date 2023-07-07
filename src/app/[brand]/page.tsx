@@ -4,29 +4,13 @@ import ProductLinkGenerator from "@/domain/ProductLinkGenerator";
 import SideshowAffiliateLinkFinder from "@/domain/SideshowAffiliateLinkFinder";
 import SideshowUrlCleaner from "@/domain/SideshowUrlCleaner";
 import { result } from "@/models/Types";
+import SideshowRepo from "@/repo/sideshowRepo";
 
 const sideshowUrlCleaner = new SideshowUrlCleaner();
-const allData = async () => {
-  var items = [];
-  var itemCount = 7;
-  var resultsPerPage = 500;
+const sideshowRepo = new SideshowRepo();
 
-  for (let i = 1; i <= itemCount; i++) {
-    var promise = fetch(
-      `https://3w37oq.a.searchspring.io/api/search/search.json?page=${i}&ajaxCatalog=v3&resultsFormat=native&siteId=3w37oq&resultsPerPage=${resultsPerPage}&sort=newest&q=&sort.ss_days_since_release=asc`
-    );
+const allData = async () => await sideshowRepo.GetAllItems();
 
-    items.push(promise);
-  }
-
-  var gatheredResponses: result[] = [];
-  for (let i = 0; i < items.length; i++) {
-    var response = (await (await items[i]).json()).results;
-    gatheredResponses = gatheredResponses.concat(response);
-  }
-
-  return gatheredResponses;
-};
 
 export async function generateStaticParams() {
   const gatheredResponses = await allData();

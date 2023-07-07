@@ -1,36 +1,18 @@
 import Card from '@/components/Card';
 import SideshowImageHelper from '@/domain/ImageHelper';
 import ProductLinkGenerator from '@/domain/ProductLinkGenerator';
-import { result } from '@/models/Types';
+import SideshowRepo from '@/repo/sideshowRepo';
 import Image from 'next/image'
-async function GetAllItems() {
-  var items = [];
-  var itemCount = 1;
-  var resultsPerPage =6;
-  
-  for (let i = 1; i <= itemCount; i++) {
-    var promise = fetch(
-      `https://3w37oq.a.searchspring.io/api/search/search.json?page=${i}&ajaxCatalog=v3&resultsFormat=native&siteId=3w37oq&resultsPerPage=${resultsPerPage}&sort=newest&q=&sort.ss_days_since_release=asc`
-    );
-  
-    items.push(promise);
-  }
-  
-  var gatheredResponses : result[] = [];
-  for (let i = 0; i < items.length; i++) {
-    var response = (await (await items[i]).json()).results;
-    gatheredResponses = gatheredResponses.concat(response);
-  }
 
-  return gatheredResponses;
-}
 
+const sideshowRepo = new SideshowRepo();
+const allData = async (itemCount : number,resultsPerPage: number) => await sideshowRepo.GetAllItems(itemCount,resultsPerPage);
 
 const productLinkGenerator = new ProductLinkGenerator();
 const imageHelper = new SideshowImageHelper();
 
 export default async function Home() {
-  var items = await GetAllItems();
+  var items = await allData(1,6);
   return (
     <main className="flex min-h-screen flex-col items-center justify-between p-24">
       <div className="z-10 w-full max-w-5xl items-center justify-between font-mono text-sm lg:flex grid grid-cols-4 gap-4">

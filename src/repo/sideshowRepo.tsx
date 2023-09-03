@@ -18,7 +18,7 @@ export default class SideshowRepo {
       var response = (await (await items[i]).json()).results;
       gatheredResponses = gatheredResponses.concat(response);
     }
-S
+
     return gatheredResponses;
   }
 }

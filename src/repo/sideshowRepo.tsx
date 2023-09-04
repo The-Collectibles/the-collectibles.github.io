@@ -7,7 +7,7 @@ export default class SideshowRepo {
     for (let i = 1; i <= itemCount; i++) {
       var promise = fetch(
         `https://3w37oq.a.searchspring.io/api/search/search.json?page=${i}&ajaxCatalog=v3&resultsFormat=native&siteId=3w37oq&resultsPerPage=${resultsPerPage}&sort=newest&q=&sort.ss_days_since_release=asc`,
-        { next: { revalidate: 60 } }
+        { next: { revalidate: 0 } }
       );
 
       items.push(promise);

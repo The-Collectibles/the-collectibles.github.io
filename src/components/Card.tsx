@@ -10,29 +10,24 @@ type CardProps = {
 
 const Card = (props: CardProps) => {
   return (
-    <div className="card">
-      <img
-        style={{ maxHeight: "200px" }}
-        src={props.thumbnailImageUrl}
-        className="rounded mx-auto d-block-fluid"
-        alt={props.name}
-      />
-      <div className="card-body">
-        <h5 className="card-title">{props.name}</h5>
-      </div>
-      <div className="card-footer text-muted">
-        <a
-          target="_blank"
-          className="btn btn-primary"
-          href={props.url}
-        >
-          Buy Product
+
+
+
+<div className="w-full max-w-sm bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700">
+    <a href={props.productUrl}>
+        <img className="p-8 rounded-t-lg" src={props.thumbnailImageUrl} alt="product image" />
+    </a>
+    <div className="px-5 pb-5">
+        <a href={props.productUrl}>
+            <h5 className="text-xl font-semibold tracking-tight text-gray-900 dark:text-white">{props.name}</h5>
         </a>
-        <a className="btn btn-secondary float-end" href={props.productUrl}>
-          View Product
-        </a>
-      </div>
+
+        <div className="flex items-center justify-between mt-2.5">
+            <span className="text-3xl font-bold text-gray-900 dark:text-white">$599</span>
+            <a href={`https://www.sideshow.com${props.productUrl}`} className="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">Buy</a>
+        </div>
     </div>
+</div>
   );
 };
 

@@ -62,7 +62,7 @@ export default async function Product({
             <p className="fs-2 text">${getProduct.price}</p>
             <a
               className="btn btn-primary"
-              href={getProduct.url}
+              href={`https://www.sideshow.com${getProduct.url}`}
               target="_blank"
             >
               Buy Product

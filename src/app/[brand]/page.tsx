@@ -29,14 +29,14 @@ export default async function Brand({ params }: { params: { brand: string } }) {
   );
 
   return (
-    <main className="">
+    <main className="flex min-h-screen flex-col items-center justify-between p-24">
       <div className="container my-4">
         <div className="row">
           <div className="col">
             <h1>{params.brand}</h1>
           </div>
         </div>
-        <div className="row row-cols-1 row-cols-md-3 g-4">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mt-2.5">
           {getProducts.map((item) => (
             <div className="col" key={item.uid}>
               <Card
@@ -48,6 +48,7 @@ export default async function Brand({ params }: { params: { brand: string } }) {
                   item.name,
                   item.sku
                 )}
+                price={item.price}
               ></Card>
             </div>
           ))}

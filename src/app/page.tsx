@@ -18,7 +18,7 @@ export default async function Home() {
         <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mt-2.5">
           {items.map((item) => (
             <div key={item.uid}>
-              <Card name={item.name} thumbnailImageUrl={imageHelper.GetImageLink(item.thumbnailImageUrl)} 
+              <Card name={item.name} thumbnailImageUrl={imageHelper.GetImageLink(item.thumbnailImageUrl)} price={item.price}
               url={`https://www.sideshow.com${item.url}`} productUrl={productLinkGenerator.CreateProductLink(item.brand,item.name,item.sku)}></Card>
             </div>
           ))}

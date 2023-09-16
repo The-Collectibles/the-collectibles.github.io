@@ -9,7 +9,7 @@ import SideshowRepo from "@/repo/sideshowRepo";
 const sideshowUrlCleaner = new SideshowUrlCleaner();
 const sideshowRepo = new SideshowRepo();
 
-const allData = async () => await sideshowRepo.GetAllItems(1,200);
+const allData = async () => await sideshowRepo.GetAllItems(7,500);
 
 
 export async function generateStaticParams() {

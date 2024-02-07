@@ -33,7 +33,7 @@ export default async function Brand({ params }: { params: { brand: string } }) {
       <div className="container my-4">
         <div className="row">
           <div className="col">
-            <h1>{params.brand}</h1>
+            <h1>{getProducts[0]?.brand || params.brand}</h1>
           </div>
         </div>
         <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mt-2.5">
@@ -54,8 +54,6 @@ export default async function Brand({ params }: { params: { brand: string } }) {
           ))}
         </div>
       </div>
-
-
     </main>
   );
 }

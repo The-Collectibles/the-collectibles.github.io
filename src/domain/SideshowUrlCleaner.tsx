@@ -2,7 +2,7 @@ import { IUrlCleaner } from "./IUrlCleaner";
 
 export default class SideshowUrlCleaner implements IUrlCleaner {
   Clean(item: string): string {
-    if (item === null || item == undefined) {
+    if (item === null || item === undefined) {
       return "default";
     }
 

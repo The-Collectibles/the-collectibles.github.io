@@ -17,15 +17,18 @@ const NavBar = () => {
     <Navbar.Collapse>
       <Navbar.Link
         href="/"
-        className="text:white"
+        className="text-white"
       >
         Home
       </Navbar.Link>
-      <Navbar.Link href="/brands">
+      <Navbar.Link href="/brands"  className="text-white">
         Brands
       </Navbar.Link>
-      <Navbar.Link href="/hot-toys">
+      <Navbar.Link href="/hot-toys"  className="text-white">
         Hot Toys
+      </Navbar.Link>
+      <Navbar.Link href="/offers"  className="text-white">
+       Offers
       </Navbar.Link>
     </Navbar.Collapse>
   </Navbar>

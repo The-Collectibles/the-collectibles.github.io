@@ -44,3 +44,15 @@ export type result = {
     affiliates : DataNode[]
     status: string
 }
+
+export type product = {
+    name : string
+    id : string
+    originalid : string
+    price : number
+    priceHistory : number[]
+    currency : string
+    brand : string
+    url : string
+
+}

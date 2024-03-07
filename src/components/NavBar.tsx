@@ -30,6 +30,9 @@ const NavBar = () => {
       <Navbar.Link href="/offers"  className="text-white">
        Offers
       </Navbar.Link>
+      <Navbar.Link href="/search"  className="text-white">
+       Search
+      </Navbar.Link>
     </Navbar.Collapse>
   </Navbar>
   );
